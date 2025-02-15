@@ -1,0 +1,185 @@
+CREATE TABLE student(
+ `student_id` int PRIMARY KEY AUTO_INCREMENT,
+    `Name` varchar(20),
+    `DateOfBirth` Date ,
+    `Gender` varchar(20), 
+    `Classroom_id` int 
+);
+ CREATE TABLE TEACHER(
+    `TEACHER_ID` INT AUTO_INCREMENT PRIMARY KEY ,
+    `NAME` VARCHAR(20),
+     `EMAIL` VARCHAR(150),
+     `PHONENUMBER` INT ,
+     ` Specialization` VARCHAR(30)
+     
+ );
+  CREATE TABLE COURSE(
+  `COURSE_ID` INT AUTO_INCREMENT PRIMARY KEY,
+      `COURSE_NAME` VARCHAR(20),
+      `TEACHER_ID` INT
+  ); 
+
+  CREATE TABLE CLASSROOM(
+       `CLASSROOM_ID` INT PRIMARY KEY AUTO_INCREMENT ,
+       `CLASSROOM_NAME` VARCHAR(20),
+       `CAPACITY` INT
+   );
+    CREATE TABLE ATTENDANCE(
+       `ATTENDANCE_ID` INT PRIMARY KEY AUTO_INCREMENT ,
+       `STUDENT_ID` INT ,
+       `COURSE_ID` INT ,
+       `DATE` DATE,
+       `STATUS` VARCHAR(2) 
+   );
+
+ INSERT INTO student (name , dateofbirth , gender) values ( 'Alice Johnson', '2012-05-10', 'Female');
+ INSERT INTO student (name , dateofbirth , gender) values ( 'David Williams', '2011-07-22', 'Male');
+ INSERT INTO student (name , dateofbirth , gender) values ('Sophia Martinez', '2012-03-18', 'Female');
+ INSERT INTO student (name , dateofbirth , gender) values ( 'James Anderson', '2011-09-30', 'Male');
+ INSERT INTO student (name , dateofbirth , gender) values ('Olivia Thomas', '2012-01-25', 'Female');
+ 
+ 
+ 
+ INSERT INTO teacher ( Name, Email, PhoneNumber, Specialization) values (  'John Smith', 'john.smith@example.com', '123-456-7890', 'Mathematics');
+ INSERT INTO teacher (Name, Email, PhoneNumber, Specialization) values ('Jane Doe', 'jane.doe@example.com', '987-654-3210', 'English');
+ INSERT INTO teacher (Name, Email, PhoneNumber, Specialization) values ( 'Robert Brown', 'robert.brown@example.com', '555-666-7777', 'Science');
+ INSERT INTO teacher (Name, Email, PhoneNumber, Specialization) values ('Emily Clark', 'emily.clark@example.com', '444-555-6666', 'History');
+ INSERT INTO teacher (Name, Email, PhoneNumber, Specialization) values ('Michael Johnson', 'michael.johnson@example.com', '111-222-3333', 'Physics')
+
+
+ INSERT INTO COURSE ( COURSE_NAME) values ( 'Algebra I');
+ INSERT INTO COURSE (COURSE_NAME) values ( 'Grammar Basics');
+ INSERT INTO COURSE (COURSE_NAME) values ('Biology Fundamentals');
+ INSERT INTO COURSE (COURSE_NAME) values ('World History');
+ INSERT INTO COURSE (COURSE_NAME) values ('Introduction to Physics')
+
+
+INSERT INTO classroom (CLASSROOM_NAME, Capacity) VALUES ('Grade 1 - A', 30);
+INSERT INTO classroom (CLASSROOM_NAME, Capacity) VALUES ('Grade 1 - B', 28);
+INSERT INTO classroom (CLASSROOM_NAME, Capacity) VALUES ('Grade 2 - A', 32);
+INSERT INTO classroom (CLASSROOM_NAME, Capacity) VALUES ('Grade 2 - B', 29);
+INSERT INTO classroom (CLASSROOM_NAME, Capacity) VALUES ('Grade 3 - A', 31)
+
+
+INSERT INTO attendance ( Date, Status) VALUES ('2025-02-12', 'Present');
+INSERT INTO attendance ( Date, Status) VALUES ('2025-02-12', 'Absent');
+INSERT INTO attendance ( Date, Status) VALUES ('2025-02-12', 'Present');
+INSERT INTO attendance ( Date, Status) VALUES ('2025-02-12', 'Present');
+INSERT INTO attendance ( Date, Status) VALUES ('2025-02-12', 'Absent')
+
+
+
+
+ALTER TABLE student ADD CONSTRAINT FK_STUDENT_CLASSROOM FOREIGN KEY (classroom_ID) REFERENCES classroom(classroom_ID) ;
+ALTER TABLE course ADD CONSTRAINT FK_TEACHER_STUDENT FOREIGN KEY  (teacher_ID) REFERENCES teacher (TEACHER_ID) ;
+ADD CONSTRAINT fk_attendance_student FOREIGN KEY (STUDENT_ID) REFERENCES student(student_id);
+ALTER TABLE ATTENDANCE ADD CONSTRAINT fk_attendance_COURSE FOREIGN KEY (COURSE_ID) REFERENCES course(course_id);
+
+
+
+
+
+1. SELECT * FROM student WHERE `Gender` = "Female";
+2.SELECT * FROM teacher WHERE specialization ="Mathematics" OR specialization="Physics" ;
+3.SELECT * FROM student WHERE DateOfBirth BETWEEN '2011-01-01' AND '2012-12-31' ;
+4. SELECT * FROM course ORDER BY COURSE_NAME ASC;
+5. SELECT * FROM student WHERE NAME LIKE "A%" ;
+6. SELECT * FROM student WHERE NAME LIKE "A%" ;
+7. SELECT MIN(capacity) FROM classrooms;
+8. SELECT MAX(CAPACITY) FROM classroom;
+9.SELECT AVG(capacity) FROM classrooms;
+10.SELECT COUNT(*) FROM students;
+
+
+
+
+
+
+
+UPDATE student
+SET classroom_id = 1
+WHERE student_id = 1;
+UPDATE student
+SET classroom_id =2
+WHERE student_id = 2;
+UPDATE student
+SET classroom_id = 3
+WHERE student_id = 3;
+UPDATE student
+SET classroom_id = 4
+WHERE student_id = 4;
+UPDATE student
+SET classroom_id = 5
+WHERE student_id = 5;
+
+11.SELECT classroom_id, COUNT(*) AS total_student FROM student GROUP BY classroom_id;
+
+12.SELECT student.Name, classroom.classroom_name
+FROM student
+JOIN classroom ON student.classroom_id = classroom.classroom_id;
+
+13.SELECT course.COURSE_NAME, teacher.NAME FROM teacher JOIN course ON teacher.TEACHER_ID = course.TEACHER_ID;
+14. select student.student_id, student.name, attendance.DATE, attendance.STATUS from student LEFT JOIN attendance on student.student_id = attendance.STUDENT_ID;
+15.SELECT course.course_name, teacher.name FROM course LEFT JOIN teacher ON course.teacher_id = teacher.teacher_id;
+16.SELECT teacher.name, course.course_name FROM teacher RIGHT JOIN course ON teacher.teacher_id = course.teacher_id;
+17.SELECT DISTINCT student.student_id, student.Name
+FROM student
+INNER JOIN attendance ON student.student_id = attendance.student_id;
+
+18.SELECT student.student_id, student.Name
+FROM student
+LEFT JOIN attendance ON student.student_id = attendance.student_id
+WHERE attendance.student_id IS NULL;
+
+
+UPDATE attendance SET STUDENT_ID=1 WHERE ATTENDANCE_ID=1;
+UPDATE attendance SET STUDENT_ID=2 WHERE ATTENDANCE_ID=2;
+UPDATE attendance SET STUDENT_ID=3 WHERE ATTENDANCE_ID=3;
+UPDATE attendance SET STUDENT_ID=4 WHERE ATTENDANCE_ID=4;
+UPDATE attendance SET STUDENT_ID=5 WHERE ATTENDANCE_ID=5;
+
+UPDATE attendance SET COURSE_ID=10 WHERE ATTENDANCE_ID=1;
+UPDATE attendance SET COURSE_ID=11 WHERE ATTENDANCE_ID=2;
+UPDATE attendance SET COURSE_ID=12 WHERE ATTENDANCE_ID=3;
+UPDATE attendance SET COURSE_ID=13 WHERE ATTENDANCE_ID=4;
+UPDATE attendance SET COURSE_ID=14 WHERE ATTENDANCE_ID=5;
+ 19.SELECT course.course_id, course.course_name, COUNT(attendance.student_id) AS total_students
+FROM attendance
+JOIN course ON attendance.course_id = course.course_id
+GROUP BY course.course_id, course.course_name
+HAVING COUNT(attendance.student_id) > 1;
+
+
+20.SELECT teacher_id, COUNT(course_id) AS course_count
+FROM course
+GROUP BY teacher_id
+ORDER BY course_count DESC
+LIMIT 1;
+21.SELECT s.student_id, s.name, s.classroom_id
+FROM student s
+JOIN classroom c ON s.classroom_id = c.classroom_id
+WHERE c.capacity = (SELECT MAX(capacity) FROM classroom);
+
+22.SELECT c.course_id, c.course_name, c.teacher_id
+FROM course c
+JOIN teacher t ON c.teacher_id = t.teacher_id
+WHERE t.name = 'John Smith';
+
+
+23.SELECT DISTINCT s.name
+FROM student s
+JOIN attendance a ON s.student_id = a.student_id
+JOIN course c ON a.course_id = c.course_id
+WHERE c.course_name = 'Algebra I';
+
+24.SELECT specialization, COUNT(teacher_id) AS teacher_count
+FROM teacher
+GROUP BY specialization;
+25.
+
+
+26.SELECT s.student_id, s.name
+FROM student s
+LEFT JOIN attendance a ON s.student_id = a.student_id AND a.status = 'Absent'
+WHERE a.student_id IS NULL;
+
