@@ -178,6 +178,12 @@ GROUP BY specialization;
 25.
 
 
+
+
+
+
+26
+
 26.SELECT s.student_id, s.name
 FROM student s
 LEFT JOIN attendance a ON s.student_id = a.student_id AND a.status = 'Absent'
